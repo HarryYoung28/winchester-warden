@@ -10,6 +10,12 @@
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+
+  /* Winchester Brand Guideline Colours */
+  --color-winchester-purple: #7b2182;
+  --color-winchester-purple-tint: #954d9b;
+  --color-winchester-cool-grey: #e2e2df;
+  --color-winchester-cool-grey-dark: #53565a;
 }
 
 @media (prefers-color-scheme: dark) {
