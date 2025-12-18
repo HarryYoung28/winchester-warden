@@ -1,13 +1,11 @@
 import TableData from "@/app/components/table-data"
+import PageTitle from "@/app/components/page-title";
 
 export default function AdminView() {
     return (
         <div  
         className="flex flex-col justify-center items-center min-h-screen gap-5">
-            <h1 
-            className="text-2xl font-semibold">
-                Dashboard
-            </h1>
+            <PageTitle>Dashboard</PageTitle>
             {/* Div to hold table of locations without cover */}
             <div className="
             bg-winchester-cool-grey
@@ -39,5 +37,5 @@ export default function AdminView() {
             </table>
             </div>
         </div>
-    )
+    );
 }

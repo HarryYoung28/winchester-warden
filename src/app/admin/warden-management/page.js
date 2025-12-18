@@ -1,19 +1,13 @@
 import TableData from "@/app/components/table-data";
 import TableButtons from "@/app/components/table-buttons";
+import PageTitle from "@/app/components/page-title";
 
 export default function WardenManagement(){
 
-    return (
+    return ( 
         <div
         className="flex flex-col justify-center items-center gap-5 min-h-screen">
-            <h1
-            className="text-2xl font-semibold">
-                Warden Management
-            </h1>
-            {/* Div for table, containing placeholder data in rows for now */}
-            <button className="bg-green-500 p-1 rounded shadow-lg text-black">
-                Create New Entry
-            </button>
+            <PageTitle>Warden Management</PageTitle>
             <div className="
             bg-winchester-cool-grey 
             dark:bg-winchester-cool-grey-dark 
@@ -22,9 +16,15 @@ export default function WardenManagement(){
             shadow-lg
             max-w-full
             overflow-x-auto">
+                {/* mini div to put the button in a flex box to keep it to the right */}
+                <div className="flex justify-end">
+                    <button className="bg-lime-500 p-1 rounded shadow-lg text-black hover:bg-lime-400">
+                        Create New Entry
+                    </button>
+                </div>
                 <table className="table-auto border-collapse">  
                     <caption className="mb-4 font-bold text-lg">
-                        
+                        Warden Details
                     </caption>
                     <thead>
                         <tr className="border-b">

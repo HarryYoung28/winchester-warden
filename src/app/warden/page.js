@@ -1,6 +1,9 @@
+import PageTitle from "../components/page-title";
+
 export default function WardenView() {
     return (
         <div className="flex flex-col justify-center items-center min-h-screen gap-5">
+            <PageTitle>Warden Home Page</PageTitle>
             <h1 className="text-2xl">
                 Welcome [NAME]
             </h1>
@@ -121,10 +124,10 @@ export default function WardenView() {
                         </option>
                     </optgroup>
                 </select>
-                <button className="bg-green-500 p-1 rounded shadow-lg text-black">
+                <button className="bg-lime-500 p-1 rounded shadow-lg text-black hover:bg-lime-400">
                     Update
                 </button>
             </div>  
         </div>
-    )
+    );
 }

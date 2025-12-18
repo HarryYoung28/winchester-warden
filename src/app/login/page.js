@@ -56,7 +56,7 @@ export default function LoginPage() {
                         id="staffNumber" 
                         name="staffNumber" 
                         type="text" 
-                        className="border w-xs" 
+                        className="border w-xs focus:border-3" 
                         placeholder={"e.g.123456"}
                         value={staffNumber}
                         onChange={(event) => setStaffNumber(event.target.value)}>
@@ -73,18 +73,19 @@ export default function LoginPage() {
                         id="password" 
                         name="password" 
                         type="password" 
-                        className="border w-xs" 
+                        className="border w-xs focus:border-3" 
                         placeholder={"example"}
                         value={password}
                         onChange={(event) => setPassword(event.target.value)}>
                     </input>
                     {/* Link used to direct to forgot password page */}
-                    <Link href="/login/forgot-password" className="text-sm text-cyan-400">
+                    <Link href="/login/forgot-password" className="text-sm text-cyan-400 hover:font-bold">
                             Forgot Password?
                     </Link>
                 </div>
                 {/* sign in button linked to function signInUser */}
-                <button onClick={signInUser} className="bg-green-500 p-1 rounded shadow-lg text-black">
+                <button onClick={signInUser} 
+                className="bg-lime-500 p-1 rounded shadow-lg text-black hover:bg-lime-400">
                     Sign In
                 </button>
             </div>
