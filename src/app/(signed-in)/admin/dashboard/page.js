@@ -1,4 +1,4 @@
-import TableData from "@/app/table-data"
+import TableData from "@/app/components/table-data"
 
 export default function AdminView() {
     return (

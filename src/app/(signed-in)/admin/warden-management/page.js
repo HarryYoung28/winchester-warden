@@ -1,5 +1,5 @@
-import TableData from "@/app/table-data";
-import TableButtons from "@/app/table-buttons";
+import TableData from "@/app/components/table-data";
+import TableButtons from "@/app/components/table-buttons";
 
 export default function WardenManagement(){
 
