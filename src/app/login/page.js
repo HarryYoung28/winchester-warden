@@ -10,26 +10,38 @@ export default function LoginPage() {
     const [staffNumber, setStaffNumber] = useState("");
     const [password, setPassword] = useState("");
 
-    //PLACEHOLDER LOGIC VARIABLES FOR LATER !!!! MUST DELETE WHEN DB CONNECTION STARTS !!
-    const adminUsername = "123";
-    const adminPassword = "admin123";
-
-    const wardenUsername = "456";
-    const wardenPassword = "warden456";
-
     // logic for button
-    function signInUser() {
-        if (staffNumber === adminUsername && password === adminPassword) {
-            router.push("/admin/dashboard");
-            return;
-        }
+    async function signInUser() {
+        try {
+            const response = await fetch("/api/login", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    staffNumber,
+                    password
+                })
+            });
 
-        if (staffNumber === wardenUsername && password === wardenPassword) {
-            router.push("/warden")
-            return;
-        }
+            const data = await response.json();
 
-        alert("Invalid staff number or password")
+            if (!data.ok) {
+                alert(data.error || "Invalid Staff Number or Password!");
+                return;
+            }
+
+            if (data.role === "admin") {
+                router.push("/admin/dashboard");
+            } else if (data.role === "warden") {
+                router.push("/warden");
+            } else {
+                alert("Role has not been assigned, contact your administrator");
+            }
+        } catch (error) {
+            console.error(error);
+            alert("Something went wrong... whoops!")
+    }
     }
 
     return (
