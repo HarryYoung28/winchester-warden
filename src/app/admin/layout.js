@@ -1,6 +1,7 @@
-import AdminNavBar from "@/app/components/admin-nav-bar";
-import HeaderBar from "@/app/components/header-bar";
-import SignOutButton from "@/app/components/sign-out-button";
+import AdminNavBar from "../components/admin-nav-bar";
+import HeaderBar from "../components/header-bar";
+import PageTitle from "../components/page-title";
+import SignOutButton from "../components/sign-out-button";
 
 export default function AdminLayout({ children }) {
     return (

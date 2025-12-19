@@ -4,6 +4,9 @@ export default function HeaderBar({ left, center, right }) {
       <div className="flex items-center gap-2">
         {left}
       </div>
+      <div className="absolute left-1/2 -translate-x-1/2">
+        {center}
+      </div>
       <div className="flex items-center gap-2">
         {right}
       </div>
