@@ -24,6 +24,12 @@
 .DS_Store
 *.pem
 
+# user accounts plaintext for coursework purposes only! (chris needs this...)
+documents/user-credentials.md
+
+# how to hash passwords (useful for coursework docs)
+hash-password.js
+
 # debug
 npm-debug.log*
 yarn-debug.log*
