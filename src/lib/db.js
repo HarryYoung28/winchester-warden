@@ -1,5 +1,7 @@
 import sql from "mssql";
 
+// This is the connection to my db using environmental variables for security
+
 const config = {
     server: process.env.DB_SERVER,
     database: process.env.DB_DATABASE,

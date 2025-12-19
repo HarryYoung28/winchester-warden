@@ -28,9 +28,9 @@ export async function getAllWardens() {
     `);
 }
 
-// Get warden current whereabouts
+// Get all warden current whereabouts
 
-export async function getWardenWhereabouts() {
+export async function getAllWardenWhereabouts() {
     const pool = await getPool();
 
     return pool.request().query(`
@@ -42,6 +42,8 @@ export async function getWardenWhereabouts() {
     `);
 }
 
+// Update warden location in database
+
 export async function updateWardenLocation(userId, locationId) {
     const pool = await getPool();
 
@@ -52,5 +54,21 @@ export async function updateWardenLocation(userId, locationId) {
             UPDATE dbo.WardenStatus
             SET location_id = @location_id, started_at = SYSDATETIME()
             WHERE user_id = @user_id
+        `);
+}
+
+// get THIS warden current whereabouts
+
+export async function getThisWardensWhereabouts(userId) {
+    const pool = await getPool();
+
+    return pool.request()
+        .input("user_id", userId)
+        .query(`
+            SELECT u.first_name, u.last_name, l.location_name, ws.started_at
+            FROM dbo.Users u
+            INNER JOIN dbo.WardenStatus ws ON ws.user_id = u.user_id
+            INNER JOIN dbo.Locations l ON l.location_id = ws.location_id
+            WHERE u.user_id = @user_id
         `);
 }

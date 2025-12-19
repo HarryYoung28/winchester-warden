@@ -1,7 +1,26 @@
-import TableData from "@/app/components/table-data"
+"use client";
+
+import TableData from "@/app/components/table-data";
 import PageTitle from "@/app/components/page-title";
+import { useEffect, useState } from "react";
 
 export default function AdminView() {
+    const [wardenRows, setWardenRows] = useState([]);
+
+    useEffect(() => {
+        async function loadWhereabouts() {
+            const res = await fetch("/api/admin/warden-whereabouts");
+            const data = await res.json();
+
+            if (data.ok) {
+                setWardenRows(data.data);
+            } else {
+                console.error(data.error);
+            }
+        }
+        loadWhereabouts();
+    }, []);
+
     return (
         <div  
         className="flex flex-col justify-center items-center min-h-screen gap-5">
@@ -27,14 +46,7 @@ export default function AdminView() {
                     </tr>
                 </thead>
                 <tbody>
-                    <tr className="border-b">
-                        <TableData>Alwyn Hall</TableData>
-                        <TableData>12:00:00</TableData>
-                    </tr>
-                    <tr className="border-b">
-                        <TableData>King Alfred Centre</TableData>
-                        <TableData>09:00:00</TableData>
-                    </tr>
+                    {/* NEED DATA HERE */}
                 </tbody>
             </table>
             </div>
@@ -62,18 +74,14 @@ export default function AdminView() {
                     </tr>
                 </thead>
                 <tbody>
-                    <tr className="border-b">
-                        <TableData>Michael</TableData>
-                        <TableData>Mouse</TableData>
-                        <TableData>Alwyn Hall</TableData>
-                        <TableData>12:00:00</TableData>
-                    </tr>
-                    <tr className="border-b">
-                        <TableData>Scrooge</TableData>
-                        <TableData>McDuck</TableData>
-                        <TableData>King Alfred Centre</TableData>
-                        <TableData>09:00:00</TableData>
-                    </tr>
+                    {wardenRows.map((w, index) => (
+                        <tr key={index} className="border-b">
+                            <TableData>{w.first_name}</TableData>
+                            <TableData>{w.last_name}</TableData>
+                            <TableData>{w.location_name}</TableData>
+                            <TableData>{new Date(w.started_at).toLocaleString()}</TableData>
+                        </tr>
+                    ))}
                 </tbody>
             </table>
             </div>

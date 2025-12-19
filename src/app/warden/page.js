@@ -1,11 +1,30 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import PageTitle from "../components/page-title";
 
 export default function WardenView() {
 
     const [selectedLocation, setSelectedLocation] = useState("1");
+    const [wardenData, setWardenData] = useState(null);
+
+    useEffect(() => {
+        async function loadWardenData() {
+            try {
+                const res = await fetch("/api/warden-location");
+                const data = await res.json();
+
+                if (data.ok) {
+                    setWardenData(data.data);
+                } else {
+                    console.error(data.error);
+                }
+            } catch (err) {
+                console.error(err);
+            }
+        }
+        loadWardenData();
+    }, []);
 
     async function updateLocation() {
         if (!selectedLocation) {
@@ -24,22 +43,19 @@ export default function WardenView() {
                 })
             });
 
-            // const data = await response.json();
-            const text = await response.text();
-            console.log("STATUS", response.status);
-            console.log("BODY", text);
-            const data = text ? JSON.parse(text) : {};
+            const result = await response.json();
 
-            // if (!data.ok) {
-            //     alert("Location Update Failed");
-            //     return;
-            // }
-
-            if (!data.ok) {
-                alert(data.error || "Location Update Failed");
+            if (!result.ok) {
+                alert(result.error || "Location Update Failed");
                 return;
             }
 
+            const updatedResponse = await fetch("/api/warden-location")
+            const updatedData = await updatedResponse.json();
+            
+            if (updatedData.ok) {
+                setWardenData(updatedData.data)
+            }
             alert("Location updated successfully");
         } catch (err) {
             console.error(err);
@@ -51,13 +67,13 @@ export default function WardenView() {
         <div className="flex flex-col justify-center items-center min-h-screen gap-5">
             <PageTitle>Warden Home Page</PageTitle>
             <h1 className="text-2xl">
-                Welcome [NAME]
+                Welcome {wardenData ? `${wardenData.first_name} ${wardenData.last_name}` : "updating.."}
             </h1>
             <p className="text-xl">
-                Current Working Location: XXXX-XXXX
+                Current Working Location: {wardenData ? wardenData.location_name : "updating.."}
             </p>
             <p className="text-xl pb-10">
-                Last Updated: XX:XX:XX
+                Last Updated: {wardenData ? new Date(wardenData.started_at).toLocaleString() : "updating.."}
             </p>
             <p>To update your location, choose your current working location from the list below. 
                 Select "Update" when you are ready.
