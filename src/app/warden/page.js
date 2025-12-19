@@ -1,6 +1,52 @@
+"use client";
+
+import { useState } from "react";
 import PageTitle from "../components/page-title";
 
 export default function WardenView() {
+
+    const [selectedLocation, setSelectedLocation] = useState("1");
+
+    async function updateLocation() {
+        if (!selectedLocation) {
+            alert("Please select a location from the drop-down menu.")
+            return;
+        }
+
+        try { 
+            const response = await fetch("/api/update-location", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    locationId: Number(selectedLocation)
+                })
+            });
+
+            // const data = await response.json();
+            const text = await response.text();
+            console.log("STATUS", response.status);
+            console.log("BODY", text);
+            const data = text ? JSON.parse(text) : {};
+
+            // if (!data.ok) {
+            //     alert("Location Update Failed");
+            //     return;
+            // }
+
+            if (!data.ok) {
+                alert(data.error || "Location Update Failed");
+                return;
+            }
+
+            alert("Location updated successfully");
+        } catch (err) {
+            console.error(err);
+            alert("Whoops... not good! Something has broken.")
+        }
+    }
+
     return (
         <div className="flex flex-col justify-center items-center min-h-screen gap-5">
             <PageTitle>Warden Home Page</PageTitle>
@@ -20,111 +66,116 @@ export default function WardenView() {
                 please select "Off-Site".
             </p>
             <div className="flex flex-col gap-4">
-                <select className="border">
+                <select className="border" 
+                value={selectedLocation} 
+                onChange={(e) => setSelectedLocation(e.target.value)}
+                >
                     <optgroup label="Off-Site">
-                        <option value="Off-Site">
+                        <option value="1">
                             Off-Site
                         </option>
                     </optgroup>
                     <optgroup label="Student Villages">
-                        <option value="Burma Road Student Village">
+                        <option value="2">
                             Burma Road Student Village
                         </option>
-                        <option value="Queen's Road Student Village">
+                        <option value="3">
                             Queen's Road Student Village
                         </option>
-                        <option value="West Downs Student Village">
+                        <option value="4">
                             West Downs Student Village
                         </option>
                     </optgroup>
                     <optgroup label="All Other Buildings">
-                        <option value="Alwyn Hall">
+                        <option value="5">
                             Alwyn Hall
                         </option>
-                        <option value="Beech Glade">
+                        <option value="6">
                             Beech Glade
                         </option>
-                        <option value="Bowers Building">
+                        <option value="7">
                             Bowers Building
                         </option>
-                        <option value="Business School">
+                        <option value="8">
                             Business School
                         </option>
-                        <option value="Centre for Sport">
+                        <option value="9">
                             Centre for Sport
                         </option>
-                        <option value="Chapel">
+                        <option value="10">
                             Chapel
                         </option>
-                        <option value="The Cottage">
+                        <option value="11">
                             The Cottage
                         </option>
-                        <option value="Fred Wheeler Building">
+                        <option value="12">
                             Fred Wheeler Building
                         </option>
-                        <option value="Herbert Jarman Building">
+                        <option value="13">
                             Herbert Jarman Building
                         </option>
-                        <option value="Holm Lodge">
+                        <option value="14">
                             Holm Lodge
                         </option>
-                        <option value="Kenneth Kettle Building">
+                        <option value="15">
                             Kennet Kettle Building
                         </option>
-                        <option value="King Alfred Centre">
+                        <option value="16">
                             King Alfred Centre
                         </option>
-                        <option value="Martial Rose Library">
+                        <option value="17">
                             Martial Rose Library
                         </option>
-                        <option value="Masters Lodge">
+                        <option value="18">
                             Masters Lodge
                         </option>
-                        <option value="Medecroft">
+                        <option value="19">
                             Medecroft
                         </option>
-                        <option value="Medecroft Annexe">
+                        <option value="20">
                             Medecroft Annexe
                         </option>
-                        <option value="Paul Chamberlain Building">
+                        <option value="21">
                             Paul Chamberlain Building
                         </option>
-                        <option value="St Alphege">
+                        <option value="22">
                             St Alphege
                         </option>
-                        <option value="St Edburga">
+                        <option value="23">
                             St Edburga
                         </option>
-                        <option value="St Elizabeth's Hall">
+                        <option value="24">
                             St Elizabeth's Hall
                         </option>
-                        <option value="St Grimbald's Court">
+                        <option value="25">
                             St Grimbald's Court
                         </option>
-                        <option value="St James' Hall">
+                        <option value="26">
                             St James' Hall
                         </option>
-                        <option value="St Swithun's Lodge">
+                        <option value="27">
                             St Swithun's Lodge
                         </option>
-                        <option value="Students' Union">
+                        <option value="28">
                             Students' Union
                         </option>
-                        <option value="The Stripe">
+                        <option value="29">
                             The Stripe
                         </option>
-                        <option value="Tom Atkinson Building">
+                        <option value="30">
                             Tom Atkingson Building
                         </option>
-                        <option value="West Downs Centre">
+                        <option value="31">
                             West Downs Centre
                         </option>
-                        <option value="Winton Building">
+                        <option value="32">
                             Winton Building
                         </option>
                     </optgroup>
                 </select>
-                <button className="bg-lime-500 p-1 rounded shadow-lg text-black hover:bg-lime-400">
+                <button className="bg-lime-500 p-1 rounded shadow-lg text-black hover:bg-lime-400"
+                onClick={updateLocation}
+                >
                     Update
                 </button>
             </div>  

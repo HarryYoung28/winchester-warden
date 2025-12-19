@@ -5,7 +5,11 @@ import { useRouter } from "next/navigation";
 export default function SignOutButton() {
     const router = useRouter();
 
-    function signOutUser() {
+    async function signOutUser() {
+        await fetch("/api/logout", {
+            method: "POST"
+        });
+
         router.push("/login");
     }
 

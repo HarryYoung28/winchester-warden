@@ -1,5 +1,4 @@
-import { pool } from "mssql";
-import { getPool, sql } from "./db";
+import { getPool } from "./db";
 
 // Login method query
 
@@ -27,4 +26,31 @@ export async function getAllWardens() {
         FROM dbo.Users
         WHERE role = 'warden'
     `);
+}
+
+// Get warden current whereabouts
+
+export async function getWardenWhereabouts() {
+    const pool = await getPool();
+
+    return pool.request().query(`
+        SELECT u.first_name, u.last_name, l.location_name, ws.started_at
+        FROM dbo.WardenStatus ws
+        INNER JOIN dbo.Users u ON u.user_id = ws.user_id
+        INNER JOIN dbo.Locations l ON l.location_id = ws.location_id
+        WHERE u.role = 'warden'
+    `);
+}
+
+export async function updateWardenLocation(userId, locationId) {
+    const pool = await getPool();
+
+    return pool.request()
+        .input("user_id", userId)
+        .input("location_id", locationId)
+        .query(`
+            UPDATE dbo.WardenStatus
+            SET location_id = @location_id, started_at = SYSDATETIME()
+            WHERE user_id = @user_id
+        `);
 }
