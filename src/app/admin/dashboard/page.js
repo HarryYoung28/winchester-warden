@@ -21,6 +21,23 @@ export default function AdminView() {
         loadWhereabouts();
     }, []);
 
+    const [locationsWithoutCover, setLocationsWithoutCover] = useState([]);
+
+    useEffect(() => {
+        async function loadLocationsWithoutCover() {
+            const res = await fetch("/api/admin/locations-without-cover");
+            const data = await res.json();
+
+            if (data.ok) {
+                setLocationsWithoutCover(data.data);
+            } else {
+                console.error(data.error);
+            }
+        }
+
+        loadLocationsWithoutCover();
+    }, []);
+
     return (
         <div  
         className="flex flex-col justify-center items-center min-h-screen gap-5">
@@ -42,11 +59,14 @@ export default function AdminView() {
                 <thead>
                     <tr className="border-b">
                         <th className="p-2 font-semibold">Location</th>
-                        <th className="p-2 font-semibold">Last Updated</th>
                     </tr>
                 </thead>
                 <tbody>
-                    {/* NEED DATA HERE */}
+                    {locationsWithoutCover.map((loc) => (
+                        <tr key={loc.location_id} className="border-b">
+                            <TableData>{loc.location_name}</TableData>
+                        </tr>
+                    ))}
                 </tbody>
             </table>
             </div>
