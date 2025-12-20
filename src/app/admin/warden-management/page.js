@@ -282,7 +282,7 @@ export default function WardenManagement(){
                                     Staff Number
                                 </label>
                                 <input
-                                    className="border p-2 rounded text-black focus:border-2 focus:border-emerald-300"
+                                    className="border p-2 rounded text-black focus:border-2 focus:border-emerald-300 dark:text-white"
                                     name="staffNumber"
                                     value={updateForm.staffNumber}
                                     onChange={handleUpdateChange}
@@ -294,7 +294,7 @@ export default function WardenManagement(){
                                     First Name
                                 </label>
                                 <input
-                                    className="border p-2 rounded text-black focus:border-2 focus:border-emerald-300"
+                                    className="border p-2 rounded text-black focus:border-2 focus:border-emerald-300 dark:text-white"
                                     name="firstName"
                                     value={updateForm.firstName}
                                     onChange={handleUpdateChange}
@@ -305,7 +305,7 @@ export default function WardenManagement(){
                                     Last Name
                                 </label>
                                 <input
-                                    className="border p-2 rounded text-black focus:border-2 focus:border-emerald-300"
+                                    className="border p-2 rounded text-black focus:border-2 focus:border-emerald-300 dark:text-white"
                                     name="lastName"
                                     value={updateForm.lastName}
                                     onChange={handleUpdateChange}
@@ -317,7 +317,7 @@ export default function WardenManagement(){
                                     Email
                                 </label>
                                 <input
-                                    className="border p-2 rounded text-black focus:border-2 focus:border-emerald-300"
+                                    className="border p-2 rounded text-black focus:border-2 focus:border-emerald-300 dark:text-white"
                                     name="email"
                                     value={updateForm.email}
                                     onChange={handleUpdateChange}
