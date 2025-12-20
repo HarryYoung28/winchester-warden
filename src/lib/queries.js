@@ -163,7 +163,7 @@ export async function updateUser(userId, { staffNumber, firstName, lastName, ema
             SET staff_number = @staff_number,
                 first_name = @first_name,
                 last_name = @last_name,
-                email = @email,
+                email = @email
             WHERE user_id = @user_id
         `);
 
