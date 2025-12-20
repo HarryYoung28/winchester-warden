@@ -345,7 +345,7 @@ export default function WardenManagement(){
             )}
 
             
-            {/* "Modal", like a pop up for next components */}
+            {/* "Modal", like a pop up, for new entry*/}
             {isFormOpen && (
                 <div className="fixed inset-0 z-50 flex items-center justify-center">
                     <div 
@@ -442,19 +442,19 @@ export default function WardenManagement(){
                                     </input>
                                 </div>
                                 <button
+                                    type="submit"
+                                    className="bg-lime-500 p-1 shadow rounded text-black hover:bg-lime-400"
+                                    disabled={isSaving}
+                                >
+                                    {isSaving ? "In Progress...": "Submit"}
+                                </button>
+                                <button
                                     type="button" 
                                     onClick={closeForm}
                                     className="bg-gray-400 p-1 rounded shadow text-black hover:bg-gray-300"
                                     disabled={isSaving}
                                 >
                                     Cancel
-                                </button>
-                                <button
-                                    type="submit"
-                                    className="bg-lime-500 p-1 shadow rounded text-black hover:bg-lime-400"
-                                    disabled={isSaving}
-                                >
-                                    {isSaving ? "In Progress...": "Submit"}
                                 </button>
                             </form>
                         </div>
