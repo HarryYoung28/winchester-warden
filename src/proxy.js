@@ -23,6 +23,10 @@ export function proxy(request) {
         return NextResponse.redirect(new URL("/warden", request.url));
     }
 
+    if (pathname === "/admin") {
+        return NextResponse.redirect(new URL("/admin/dashboard", request.url));
+    }   
+
     // only wardens need warden access
     if (pathname.startsWith("/warden") && role !== "warden") {
         return NextResponse.redirect(new URL("/admin/dashboard", request.url));

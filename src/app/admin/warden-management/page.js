@@ -8,7 +8,6 @@ import { useEffect, useState } from "react";
 export default function WardenManagement(){
 
     const [wardens, setWardens] = useState([]);
-
     const [isFormOpen, setIsFormOpen] = useState(false);
 
     const [form, setForm] = useState({
@@ -21,9 +20,97 @@ export default function WardenManagement(){
 
     const [isSaving, setIsSaving] = useState(false);
 
+    const [isUpdateOpen, setIsUpdateOpen] = useState(false);
+    const [updateUserId, setUpdateUserId] = useState(null);
+
+    const [updateForm, setUpdateForm] = useState({
+        staffNumber: "",
+        firstName: "",
+        lastName: "",
+        email: ""
+    });
+
     function handleFormChange(e) {
         const { name, value } = e.target;
         setForm((prev) => ({ ...prev, [name]: value }))
+    }
+
+    function openUpdate(userId) {
+        const w = wardens.find((x) => x.user_id === userId);
+
+        if (!w) {
+            alert("Error, can't find this warden in the database")
+            return;
+        }
+
+        setUpdateUserId(userId);
+        setUpdateForm({
+            staffNumber: w.staff_number ?? "",
+            firstName: w.first_name ?? "",
+            lastName: w.last_name ?? "",
+            email: w.email ?? ""
+        });
+
+        setIsUpdateOpen(true);
+    }
+
+    function closeUpdate() {
+        setIsUpdateOpen(false);
+        setUpdateUserId(null);
+    }
+
+    function handleUpdateChange(e) {
+        const { name, value } = e.target;
+        setUpdateForm((prev) => ({ ...prev, [name]: value}));
+    }
+
+    async function handleUpdateWarden(e) {
+        e.preventDefault();
+
+        if (!updateUserId) {
+            alert("Error, User Id Missing!");
+            return;
+        }
+
+        const { staffNumber, firstName, lastName, email } = updateForm;
+
+        if(!staffNumber || !firstName || !lastName || !email) {
+            alert("Missing field(s).");
+            return;
+        }
+
+        try {
+            setIsSaving(true);
+
+            const res = await fetch(`/api/admin/users/${updateUserId}`, {
+                method: "PUT",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(updateForm)
+            });
+
+            const data = await res.json();
+
+            if (!data.ok) {
+                alert(data.error || "Update failure...");
+                return;
+            }
+
+            setWardens((prev) => prev.map((w) => w.user_id === updateUserId ? {
+                ...w,
+                staff_number: staffNumber,
+                first_name: firstName,
+                last_name: lastName,
+                email
+            }
+            : w
+        ));
+        closeUpdate();
+        } catch (err) {
+            console.error(err);
+            alert("Update failure...")
+        } finally {
+            setIsSaving(false);
+        }
     }
 
     async function handleCreateWarden(e) {
@@ -159,6 +246,7 @@ export default function WardenManagement(){
                                     firstName={w.first_name}
                                     lastName={w.last_name}
                                     onDelete={handleDelete}
+                                    onUpdate={openUpdate}
                                 ></TableButtons>
                             </tr>
                         ))}
@@ -166,6 +254,98 @@ export default function WardenManagement(){
                 </table>
             </div>
 
+            {/* Modal for update/edit warden form */}
+            {isUpdateOpen && (
+                <div className="fixed inset-0 z-50 flex items-center justify-center">
+                    <div 
+                        className="absolute inset-0 bg-black/50"
+                        onClick={closeUpdate}
+                    >
+                    </div>
+                    <div className="
+                        relative
+                        z-10
+                        bg-winchester-cool-grey
+                        dark:bg-winchester-cool-grey-dark
+                        p-6
+                        rounded-lg
+                        shadow-lg
+                        w-full
+                        max-w-lg
+                    ">
+                        <h2 className="text-xl font-bold mb-4">
+                            Update Warden
+                        </h2>
+                        <form onSubmit={handleUpdateWarden} className="flex flex-col gap-3">
+                            <div className="flex flex-col gap-1">
+                                <label className="text-sm font-medium">
+                                    Staff Number
+                                </label>
+                                <input
+                                    className="border p-2 rounded text-black focus:border-2 focus:border-emerald-300"
+                                    name="staffNumber"
+                                    value={updateForm.staffNumber}
+                                    onChange={handleUpdateChange}
+                                >
+                                </input>
+                            </div>
+                            <div className="flex flex-col gap-1">
+                                <label className="text-sm font-medium">
+                                    First Name
+                                </label>
+                                <input
+                                    className="border p-2 rounded text-black focus:border-2 focus:border-emerald-300"
+                                    name="firstName"
+                                    value={updateForm.firstName}
+                                    onChange={handleUpdateChange}
+                                >
+                                </input>
+                            </div><div className="flex flex-col gap-1">
+                                <label className="text-sm font-medium">
+                                    Last Name
+                                </label>
+                                <input
+                                    className="border p-2 rounded text-black focus:border-2 focus:border-emerald-300"
+                                    name="lastName"
+                                    value={updateForm.lastName}
+                                    onChange={handleUpdateChange}
+                                >
+                                </input>
+                            </div>
+                            <div className="flex flex-col gap-1">
+                                <label className="text-sm font-medium">
+                                    Email
+                                </label>
+                                <input
+                                    className="border p-2 rounded text-black focus:border-2 focus:border-emerald-300"
+                                    name="email"
+                                    value={updateForm.email}
+                                    onChange={handleUpdateChange}
+                                >
+                                </input>
+                            </div>
+                            <button
+                                type="submit"
+                                className="bg-lime-500 p-1 shadow rounded text-black hover:bg-lime-400"
+                                disabled={isSaving}
+                            >
+                                {isSaving ? "Updating..." : "Save Changes"}
+                            </button>
+                            <button
+                                type="button"
+                                onClick={closeUpdate}
+                                className="bg-gray-400 p-1 rounded shadow text-black hover:bg-gray-300"
+                                disabled={isSaving}
+                            >
+                                Cancel
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            )}
+
+            
+            {/* "Modal", like a pop up for next components */}
             {isFormOpen && (
                 <div className="fixed inset-0 z-50 flex items-center justify-center">
                     <div 

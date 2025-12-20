@@ -39,7 +39,6 @@ export async function PUT(req, context) {
             firstName,
             lastName,
             email,
-            role: "warden"
         });
 
         return NextResponse.json(

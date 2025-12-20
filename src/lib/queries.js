@@ -16,7 +16,7 @@ export async function loginUserQuery(staffNumber) {
     return result;
 }
 
-// Get all wardens
+// Get all wardens (ordered by staff number ignoring W)
 
 export async function getAllWardens() {
     const pool = await getPool();
@@ -25,6 +25,7 @@ export async function getAllWardens() {
         SELECT user_id, staff_number, first_name, last_name, email
         FROM dbo.Users
         WHERE role = 'warden'
+        ORDER BY CAST(SUBSTRING(staff_number, 2, LEN(staff_number)) AS INT);
     `);
 }
 
@@ -150,7 +151,6 @@ export async function updateUser(userId, { staffNumber, firstName, lastName, ema
     if (oldData.recordset.length === 0 ) {
         throw new Error("User not found")
     }
-    const oldRole = oldData.recordset[0].role;
 
     await pool.request()
         .input("user_id", userId)
@@ -158,35 +158,14 @@ export async function updateUser(userId, { staffNumber, firstName, lastName, ema
         .input("first_name", firstName)
         .input("last_name", lastName)
         .input("email", email)
-        .input("role", role)
         .query(`
             UPDATE dbo.Users
             SET staff_number = @staff_number,
                 first_name = @first_name,
                 last_name = @last_name,
                 email = @email,
-                role = @role
             WHERE user_id = @user_id
         `);
-    
-    if (oldRole !== role) {
-        if (role === "warden") {
-            await pool.request()
-                .input("user_id", userId)
-                .query(`
-                    IF NOT EXISTS (SELECT 1 FROM dbo.WardenStatus WHERE user_id = @user_id)
-                    INSERT INTO dbo.WardenStatus (user_id, location_id, started_at)
-                    VALUES (@user_id, 1, SYSDATETIME())
-                `);
-            
-        } else {
-            await pool.request()
-                .input("user_id", userId)
-                .query(`
-                    DELETE FROM dbo.WardenStatus WHERE user_id = @user_id
-                `)
-        }
-    }
 
 }
 

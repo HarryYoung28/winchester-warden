@@ -68,6 +68,12 @@ export async function POST(req) {
             { ok: true, user_id: newUserId }
         );
     } catch (err) {
+        if (err.message.includes("UQ_Users_StaffNumber")) {
+            return NextResponse.json(
+                { ok: false, error: "Staff number already exists." },
+                { status: 409 }
+            );
+        }
         return NextResponse.json(
             { ok: false, error: err.message },
             { status: 500 }
