@@ -105,6 +105,7 @@ export default function WardenManagement(){
             : w
         ));
         closeUpdate();
+        alert("Warden Updated Successfully")
         } catch (err) {
             console.error(err);
             alert("Update failure...")
@@ -142,6 +143,7 @@ export default function WardenManagement(){
 
             if (refreshJson.ok) {
                 setWardens(refreshJson.data);
+                alert("Warden Created Successfully")
             } else {
                 console.error(refreshJson.error);
             }
@@ -200,6 +202,7 @@ export default function WardenManagement(){
         }
         
         setWardens((prev) => prev.filter((w) => w.user_id !== userId));
+        alert(`Warden ${firstName} ${lastName} deleted successfully.`);
     }
 
     return ( 

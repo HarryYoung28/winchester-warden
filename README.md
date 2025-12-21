@@ -16,9 +16,11 @@ This is a [Next.js](https://nextjs.org) project implemented using [Microsoft Vis
 
 This section will contain instructions for the systems usage split into general pages instructions, and specifics for admin and warden related pages.
 
+For ***User Credentials*** in the use of testing of the application, please refer to the separately submitted *user-credentials.md* file. The *user-credentials.md* file **also** contains suggested, and detailed, instructions for the testing of the system to explore the functionality.
+
 ### General
 
-#### Login 
+#### Login
 _https://winchester-warden-whereabouts.azurewebsites.net/login_
 
 To sign in to an account, the user will enter their staff number and password. This process will be replaced with the University's Microsoft Entra Id Single Sign-On option once fully deployed. 
@@ -74,6 +76,28 @@ There are validations in place for ensuring two identical staff numbers cannot b
 When _Delete_ is used, a warning will pop up with the name of the selected user, to give the administrator a chance to recover from mistakes and prevent incorrect user deletion. 
 
 ### Warden 
+_https://winchester-warden-whereabouts.azurewebsites.net/warden_
+
+#### Home Page
+
+The warden home page is the only page accessible to warden users.
+
+It displays a simple welcome message, with their name to confirm it is them signed in. It also shows their current working location, and when they last submitted this update.
+
+There is a drop down menu, with all available working locations, to safely choose where they are currently working. To submit this choice, the user **must** select the green _update_ button.  This will cause the page to refresh, and reflect the working location submitted as confirmation to the User.    
+
+The warden home page also contains the top right sign out button which will refresh the cookies upon sign out.
+
+### Important Caveats/Notes
+
+If signed in as an admin user, and trying to access a warden page via the URL, you will be redirected to the admin dashboard.
+
+Likewise, if signed in as a warden user, and trying to access an admin page via the URL, you will be redirected to the warden dashboard.
+
+If you are trying to access _any_ URL other than the login page and are not currently signed in, you will be pushed to the login page.
+
+
+
 
 
 
