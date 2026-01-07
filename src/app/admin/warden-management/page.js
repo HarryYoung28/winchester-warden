@@ -220,7 +220,7 @@ export default function WardenManagement(){
                 {/* mini div to put the button in a flex box to keep it to the right */}
                 <div className="flex justify-end">
                     <button 
-                        className="bg-lime-500 p-1 rounded shadow-lg border text-black hover:bg-lime-400 dark:border-white"
+                        className="bg-lime-500 p-1 rounded shadow-lg text-black hover:bg-lime-400"
                         onClick={openForm}
                     >
                         Create New Entry
