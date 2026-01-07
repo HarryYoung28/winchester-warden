@@ -45,8 +45,6 @@ export default function LoginPage() {
     }
 
     return (
-        // main content will be centered in a flexbox style, with items being in the center with 
-        // space between elements
         <div className="flex items-center justify-center min-h-screen p-10">
             {/* div used to 'hold' the login items within a box from the outside*/}
             <div className="bg-winchester-purple p-8 gap-5 rounded-lg shadow-lg flex flex-col

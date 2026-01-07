@@ -51,7 +51,6 @@ export default function AdminView() {
             shadow-lg
             max-w-full
             overflow-x-auto">
-            {/* Placeholder data for now */}
             <table className="table-auto border-collapse">
                 <caption className="mb-4 font-bold text-lg">
                     Locations Without Cover
@@ -75,12 +74,11 @@ export default function AdminView() {
             bg-winchester-cool-grey
             dark:bg-winchester-cool-grey-dark
             p-5
-            rounded-lg
+            rounded-lg  
             shadow-lg
             max-w-full
             overflow-x-auto
             mt-10">
-            {/* Placeholder data for now */}
             <table className="table-auto border-collapse">
                 <caption className="mb-4 font-bold text-lg">
                     Warden Whereabouts
