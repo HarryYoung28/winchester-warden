@@ -14,7 +14,6 @@ export default function SignOutButton() {
     }
 
     return(
-        // placeholder logic for now
         <button 
         onClick={signOutUser}
         className="bg-yellow-400 px-3 py-1 rounded shadow-lg text-black hover:bg-yellow-300">
